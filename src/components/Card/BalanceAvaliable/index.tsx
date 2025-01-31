@@ -16,6 +16,7 @@ type CardBalanceAvaliableProps = {
   buttonText?: string | undefined;
   buttonTextColor?: string;
   isLoading: boolean;
+  isButtonDisabled?: boolean;
   handleClickInButton?: () => void;
 }
 
@@ -30,6 +31,7 @@ export function CardBalanceAvaliable({
   buttonText = "",
   buttonTextColor = "",
   isLoading,
+  isButtonDisabled = false,
   handleClickInButton = () => { }
 }: CardBalanceAvaliableProps) {
 
@@ -81,16 +83,22 @@ export function CardBalanceAvaliable({
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={handleClickInButton}
-              disabled={isLoading}
-              style={
-                [styles.button_right,
-                { backgroundColor: buttonBackgroundColor }]
-              }
+              disabled={isLoading || isButtonDisabled}
+              style={[
+                styles.button_right,
+                { backgroundColor: buttonBackgroundColor },
+                isButtonDisabled && { opacity: 0.7 }
+              ]}
             >
               <Text style={[styles.button_right_text, { color: buttonTextColor }]}>
                 {buttonText}
               </Text>
             </TouchableOpacity>
+            {isButtonDisabled && value < 10 &&
+              <Text style={styles.info_withdraw}>
+                O valor mínimo para saques é R$ 10,00.
+              </Text>
+            }
             {/* </Skeleton> */}
           </Shadow>
         }

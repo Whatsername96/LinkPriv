@@ -144,6 +144,7 @@ export default function ListWithdrawals() {
             buttonText={"Solicitar saque"}
             buttonBackgroundColor={colors.white_50}
             buttonTextColor={colors.gray_11_100}
+            isButtonDisabled={listTransfers.availableAmount < 10}
             isLoading={isLoadingTransfers || isFetching}
             handleClickInButton={() =>
               router.push({

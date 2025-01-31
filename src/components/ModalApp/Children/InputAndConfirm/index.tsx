@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { X } from "phosphor-react-native";
 import { Shadow } from "react-native-shadow-2";
@@ -6,11 +6,11 @@ import Recaptcha, { RecaptchaRef } from "react-native-recaptcha-that-works";
 
 import { appConfig } from "@/api/appConfig";
 
-import { InputCurrency } from "@/components/Input/Currency";
 import { Button } from "@/components/Button";
 
 import { colors, spaces } from "@/constants/styles";
 import { styles } from "./styles";
+import CurrencyInput from "react-native-currency-input";
 
 type InputAndConfirmProps = {
   title: string;
@@ -38,6 +38,8 @@ export function ModalChildrenInputAndConfirm({
 
   const recaptcha = useRef<RecaptchaRef | null>(null);
   const isFirstRender = useRef(true);
+
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -93,12 +95,6 @@ export function ModalChildrenInputAndConfirm({
           <View style={styles.container_description}>
             <Text style={styles.description}>{description}</Text>
           </View>
-          <InputCurrency
-            placeholder="Digite o valor"
-            value={valueInput}
-            maxValue={maxValueInput}
-            onChangeValue={setValueInput}
-          />
           <Recaptcha
             ref={recaptcha}
             siteKey={appConfig.siteKeyRecaptcha || ""}
@@ -109,11 +105,34 @@ export function ModalChildrenInputAndConfirm({
             onError={onErrorToken}
             size={"normal"}
           />
+          <View>
+            <CurrencyInput
+              style={[
+                styles.input,
+                isFocused ? { borderColor: colors.pink_2_100 } : { borderColor: colors.gray_3_100 },
+                isLoading && styles.input_disabled
+              ]}
+              prefix="R$ "
+              delimiter="."
+              separator=","
+              precision={2}
+              autoFocus
+              editable={!isLoading}
+              maxValue={maxValueInput}
+              value={valueInput}
+              onChangeValue={(value) => setValueInput(value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            />
+            <Text style={styles.info_withdraw}>
+              O valor do saque precisa ser de pelo menos R$ 10,00.
+            </Text>
+          </View>
           <Button
             text={textButton}
             onPress={handleClickInConfirmButton}
             isLoading={isLoading}
-            isDisabled={valueInput === 0 || valueInput === null}
+            isDisabled={valueInput === 0 || valueInput === null || valueInput < 10}
           />
         </View>
       </View>

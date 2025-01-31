@@ -18,7 +18,6 @@ export { HeaderPage } from "./HeaderPage";
 
 export { Icon } from "./Icons";
 
-export { InputCurrency } from "./Input/Currency";
 export { InputDefault } from "./Input/Default";
 
 export { LabelEmphasys } from "./Label/Emphasys";

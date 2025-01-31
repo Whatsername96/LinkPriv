@@ -26,12 +26,13 @@ import Toast from "react-native-toast-message";
 
 export default function CreateWithdrawal() {
   const { bankAccountsRoute, avaliableAmountRoute, transferFeeRoute } = useLocalSearchParams<{ bankAccountsRoute: string, avaliableAmountRoute: string, transferFeeRoute: string }>();
-  const { isLoadingWithdraw, postBankAccountsWithdraw } = usePostBankAccountWithdraw();
+  const { isLoadingWithdraw, successWithdraw, postBankAccountsWithdraw } = usePostBankAccountWithdraw();
 
   const bankAccounts = JSON.parse(bankAccountsRoute) as BankAccount[];
-  const avaliableAmount = Number(avaliableAmountRoute);
   const transferFee = Number(transferFeeRoute);
   const valuesList = [10, 50, 100, 150, 200];
+
+  const [avaliableAmount, setAvaliableAmount] = useState(0);
 
   const [selectedValue, setSelectedValue] = useState<number | null>(null);
   const [selectedBankAccount, setSelectedBankAccount] = useState<{ label: string, value: number } | null>(null);
@@ -42,6 +43,12 @@ export default function CreateWithdrawal() {
   const [isModalConfirmOpened, setIsModalConfirmOpened] = useState(false);
 
   const [tokenCaptcha, setTokenCaptcha] = useState("");
+
+  useEffect(() => {
+    if (avaliableAmountRoute) {
+      setAvaliableAmount(Number(avaliableAmountRoute));
+    }
+  }, []);
 
   useEffect(() => {
     if (!isModalConfirmOpened) {
@@ -60,6 +67,12 @@ export default function CreateWithdrawal() {
       handleClickInMakeWithdraw();
     }
   }, [tokenCaptcha]);
+
+  useEffect(() => {
+    if (successWithdraw && selectedWithdrawValue) {
+      setAvaliableAmount(avaliableAmount - selectedWithdrawValue);
+    }
+  }, [successWithdraw]);
 
   function handleClickInOtherValue() {
     if (!selectedBankAccount) {
@@ -92,7 +105,7 @@ export default function CreateWithdrawal() {
   function handleClickInMakeWithdraw() {
     if (selectedBankAccount && (selectedWithdrawValue && selectedWithdrawValue > 0)) {
       postBankAccountsWithdraw({
-        amount: selectedWithdrawValue + transferFee || 0,
+        amount: selectedWithdrawValue || 0,
         bankAccountId: selectedBankAccount.value,
         captchaToken: tokenCaptcha
       });
@@ -168,7 +181,12 @@ export default function CreateWithdrawal() {
               style: "currency",
               maximumFractionDigits: 2,
               minimumFractionDigits: 2
-            })}. Seu saldo diminuirá conforme o valor escolhido + a taxa de saque.
+            })}. Portanto, o valor escolhido terá {transferFee.toLocaleString("pt-br", {
+              currency: "BRL",
+              style: "currency",
+              maximumFractionDigits: 2,
+              minimumFractionDigits: 2
+            })} de desconto.
           </Text>
         </View>
       </View>
@@ -235,6 +253,7 @@ const styles = StyleSheet.create({
   },
   text_info_fee: {
     fontFamily: fonts.plusJakartaSans_regular,
-    fontSize: fonts_sizes.detail
+    fontSize: fonts_sizes.detail,
+    flexShrink: 1,
   }
 });

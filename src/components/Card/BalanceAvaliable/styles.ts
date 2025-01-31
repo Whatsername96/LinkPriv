@@ -68,4 +68,11 @@ export const styles = StyleSheet.create({
 		flexShrink: 1,
 		textAlign: "center",
 	},
+	info_withdraw: {
+		fontFamily: fonts.plusJakartaSans_regular,
+		fontSize: fonts_sizes.detail,
+		marginTop: spaces.item_space_small,
+		flexShrink: 1,
+		textAlign: "center",
+	},
 });

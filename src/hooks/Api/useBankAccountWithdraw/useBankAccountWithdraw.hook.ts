@@ -10,15 +10,17 @@ import { CatchError } from "@/types/api";
 
 const ERRORS_STATUS_CODE: { [key: number]: string } = {
 	401: "Logue-se novamente.",
-	400: "Ocorreu um erro ao realizar o saque.",
+	400: "O valor do saque precisa ser pelo menos R$ 10,00.",
 };
 
 export function usePostBankAccountWithdraw() {
 	const [isLoadingWithdraw, setIsLoadingWithdraw] = useState(false);
+	const [successWithdraw, setSuccessWithdraw] = useState(false);
 
 	async function postBankAccountsWithdraw(params: BankAccountsWithdrawParams) {
 		try {
 			setIsLoadingWithdraw(true);
+			setSuccessWithdraw(false);
 			const res = await postBankAccountsWithdrawService(params);
 			Toast.show({
 				type: "success",
@@ -26,6 +28,7 @@ export function usePostBankAccountWithdraw() {
 				text2: "Saque realizado!",
 				visibilityTime: 3000,
 			});
+			setSuccessWithdraw(true);
 		} catch (e) {
 			const error = e as CatchError;
 			if (error.response) {
@@ -49,5 +52,6 @@ export function usePostBankAccountWithdraw() {
 	return {
 		postBankAccountsWithdraw,
 		isLoadingWithdraw,
+		successWithdraw,
 	};
 }
