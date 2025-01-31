@@ -12,7 +12,11 @@ const apiInstance = axios.create({
 const setupAxiosInterceptorsRequestApi = (token: string) => {
 	apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 		if (config.headers) {
-			config.headers["Authorization"] = `Bearer ${token}`;
+			if (token.length > 0) {
+				config.headers["Authorization"] = `Bearer ${token}`;
+			} else {
+				delete config.headers["Authorization"];
+			}
 		} else {
 			config.headers = {
 				Authorization: `Bearer ${token}` as AxiosHeaderValue,
