@@ -77,6 +77,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   function signOut() {
     setSession(null);
+    setupAxiosInterceptorsRequestApi("");
     router.replace("/login");
   }
 
@@ -88,7 +89,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   }, [session]);
 
   useEffect(() => {
-    setupAxiosInterceptorsResponseApi(signOut)
+    setupAxiosInterceptorsResponseApi(signOut);
   }, []);
 
   return (
