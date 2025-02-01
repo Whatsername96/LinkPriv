@@ -11,6 +11,7 @@ import {
 
 import { CatchError } from "@/types/api";
 import { LoginResponse } from "@/types/backend";
+import { useOneSignal } from "@/hooks/OneSignal/useOneSignal.hook";
 
 type LoginPayload = {
   email: string;
@@ -55,6 +56,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [session, setSession, isLoadingStorage] = useStorageState("session");
   const [error, setError] = useState<string | null>(null);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
+
+  useOneSignal(!!session);
 
   async function signIn(payload: LoginPayload) {
     try {

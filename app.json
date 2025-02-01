@@ -14,20 +14,35 @@
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.seedpay.linkpriv"
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#FFD7E5"
-			}
+			},
+			"package": "com.seedpay.linkpriv"
 		},
 		"web": {
 			"bundler": "metro",
 			"output": "static",
 			"favicon": "./assets/images/favicon.png"
 		},
-		"plugins": ["expo-router", "expo-secure-store"],
+		"plugins": [
+			"expo-router",
+			"expo-secure-store",
+			[
+				"onesignal-expo-plugin",
+				{
+					"mode": "development",
+					"smallIcons": ["./assets/oneSignal/ic_stat_onesignal_default.png"],
+					"largeIcons": [
+						"./assets/oneSignal/ic_onesignal_large_icon_default.png"
+					]
+				}
+			]
+		],
 		"experiments": {
 			"typedRoutes": true
 		}

@@ -20,10 +20,13 @@ import {
   PlusJakartaSans_700Bold,
 } from '@expo-google-fonts/plus-jakarta-sans';
 
+import { useTestConnectionUser } from '@/hooks/General/UseTestConnectionUser/UseTestConnectionUser.hook';
 import { SessionProvider } from '@/contexts/useAuth';
-import { LoaderFull, NoConnected } from '@/components';
+
+import { NoConnected } from '@/components';
+
 import { colors } from '@/constants/styles';
-import { useTestConnectionUser } from '@/hooks/General/UseTestConnectionUser';
+import { useOneSignal } from '@/hooks/OneSignal/useOneSignal.hook';
 
 export {
   ErrorBoundary,
