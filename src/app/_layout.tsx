@@ -26,7 +26,6 @@ import { SessionProvider } from '@/contexts/useAuth';
 import { NoConnected } from '@/components';
 
 import { colors } from '@/constants/styles';
-import { useOneSignal } from '@/hooks/OneSignal/useOneSignal.hook';
 
 export {
   ErrorBoundary,

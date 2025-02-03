@@ -51,7 +51,6 @@ export function useAuth() {
   return value;
 }
 
-
 export function SessionProvider({ children }: PropsWithChildren) {
   const [session, setSession, isLoadingStorage] = useStorageState("session");
   const [error, setError] = useState<string | null>(null);

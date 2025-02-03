@@ -1,4 +1,4 @@
 export const web = {
-	index: "https://www.linkpriv.com",
-	login: "https://www.linkpriv.com/login",
+	index: "https://www.conteudinhos.com.br",
+	login: "https://www.conteudinhos.com.br/login",
 };

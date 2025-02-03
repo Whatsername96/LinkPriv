@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "LinkPriv",
-		"slug": "LinkPriv",
+		"name": "Conteudinhos",
+		"slug": "conteudinhos",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"splash": {
@@ -15,14 +15,14 @@
 		"newArchEnabled": true,
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.seedpay.linkpriv"
+			"bundleIdentifier": "com.seedpay.conteudinhos"
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/adaptive-icon.png",
 				"backgroundColor": "#FFD7E5"
 			},
-			"package": "com.seedpay.linkpriv"
+			"package": "com.seedpay.conteudinhos"
 		},
 		"web": {
 			"bundler": "metro",
