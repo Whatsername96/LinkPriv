@@ -1,8 +1,7 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { Shadow } from "react-native-shadow-2";
-import { Skeleton } from "moti/skeleton";
 
-import { colors, COLORS_SKELETON, fonts_sizes } from "@/constants/styles";
+import { colors, fonts_sizes } from "@/constants/styles";
 import { styles } from "./styles";
 
 type CardBalanceAvaliableProps = {
@@ -45,11 +44,6 @@ export function CardBalanceAvaliable({
             {title}
           </Text>
           <View>
-            {/* <Skeleton
-              show={isLoading}
-              colorMode={'light'}
-              colors={COLORS_SKELETON}
-            > */}
             <Text
               style={styles.text_price_full}
             >
@@ -65,7 +59,6 @@ export function CardBalanceAvaliable({
                 {"," + (value % 1).toFixed(2).replace("0.", "")}
               </Text>
             </Text>
-            {/* </Skeleton> */}
           </View>
         </View>
         {buttonText &&
@@ -75,11 +68,6 @@ export function CardBalanceAvaliable({
             style={styles.button_right_shadow}
             distance={3}
           >
-            {/* <Skeleton
-              show={isLoading}
-              colorMode={'light'}
-              colors={COLORS_SKELETON}
-            > */}
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={handleClickInButton}
@@ -99,7 +87,6 @@ export function CardBalanceAvaliable({
                 O valor mínimo para saques é R$ 10,00.
               </Text>
             }
-            {/* </Skeleton> */}
           </Shadow>
         }
       </View>

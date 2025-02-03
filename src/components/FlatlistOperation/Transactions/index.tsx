@@ -4,7 +4,6 @@ import { FlatList, Text, View } from "react-native";
 import { ListTransactionsRenderedByDate } from "@/components/List/ListTransactionsRenderedByDate";
 import { EmptyState } from "@/components/EmptyState";
 import { FlatlistOperationHeader } from "../Header";
-import { LoadingFooter } from "../LoadingFooter";
 
 import { TransactionByDateResponse } from "@/types/backend";
 
@@ -71,11 +70,6 @@ export function FlatlistTransactionsList({
         isLoading ? (
           <Fragment>
             <LoaderSimple />
-            {/* <LoadingFooter type={"transaction"} />
-            <LoadingFooter type={"transaction"} />
-            <LoadingFooter type={"transaction"} />
-            <LoadingFooter type={"transaction"} />
-            <LoadingFooter type={"transaction"} /> */}
           </Fragment>
         ) : (
           <View style={styles.container_end}>

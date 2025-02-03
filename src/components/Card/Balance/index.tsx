@@ -2,8 +2,6 @@ import { ReactNode } from "react";
 import { Text, View } from "react-native";
 
 import { styles } from "./styles";
-import { Skeleton } from "moti/skeleton";
-import { COLORS_SKELETON } from "@/constants/styles";
 
 type CardBalance = {
   backgroundColor: string;
@@ -42,11 +40,6 @@ export function CardBalance({
           }
         </View>
         <View>
-          {/* <Skeleton
-            show={isLoading}
-            colorMode={'light'}
-            colors={COLORS_SKELETON}
-          > */}
           <Text
             style={styles.text_price_full}
           >
@@ -62,7 +55,6 @@ export function CardBalance({
               {"," + (value % 1).toFixed(2).replace("0.", "")}
             </Text>
           </Text>
-          {/* </Skeleton> */}
         </View>
       </View>
     </View>

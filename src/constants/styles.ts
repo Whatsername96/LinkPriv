@@ -117,11 +117,3 @@ export const spaces = {
 	item_space_big_plus: 120,
 	item_space_great: 250,
 };
-
-export const COLORS_SKELETON = [
-	colors.gray_8_100,
-	colors.gray_7_100,
-	colors.gray_8_100,
-	colors.gray_7_100,
-	colors.gray_8_100,
-];

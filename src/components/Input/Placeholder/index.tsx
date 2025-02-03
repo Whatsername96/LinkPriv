@@ -32,7 +32,6 @@ export function Placeholder({ isFocused, isFilled, placeholder, handleClickInPla
     });
   }, [isFocused, isFilled]);
 
-  // Estilo animado
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
     fontSize: fontSize.value,

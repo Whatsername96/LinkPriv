@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ArrowDown, ArrowUp } from "phosphor-react-native";
-import { Skeleton } from "moti/skeleton";
 
 import { useNavigation } from "expo-router";
 
@@ -20,7 +19,7 @@ import {
 import { useGetLastTransactions } from "@/hooks/Api/useTransactions/useGetLastTransactions.hook";
 import { useGetChartInfo } from "@/hooks/Api/useChartInfo/useChartInfo.hook";
 
-import { colors, COLORS_SKELETON, fonts, fonts_sizes, spaces } from "@/constants/styles";
+import { colors, fonts, fonts_sizes, spaces } from "@/constants/styles";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -80,11 +79,6 @@ export default function Home() {
       <View style={styles.container_balance}>
         <LabelInfo text={"Saldo disponível"} textAlign={"center"} />
         <View style={isLoadingChartData && { marginBottom: spaces.item_space_simple }}>
-          {/* <Skeleton
-            show={isLoadingChartData}
-            colorMode={'light'}
-            colors={COLORS_SKELETON}
-          > */}
           <Text
             style={styles.balance_value}
           >
@@ -102,16 +96,9 @@ export default function Home() {
               {"," + (listChartInfo.availableAmount % 1).toFixed(2).replace("0.", "")}
             </Text>
           </Text>
-          {/* </Skeleton> */}
         </View>
       </View>
-      {/* <Skeleton
-        show={isLoadingChartInfo}
-        colorMode={'light'}
-        colors={COLORS_SKELETON}
-      > */}
       <ChartLine list={listChartInfo.chart} />
-      {/* </Skeleton> */}
       <View style={styles.container_section}>
         <LabelSectionTitle text={"Últimos 30 dias"} textAlign={"left"} />
         <View style={styles.container_card_balance}>

@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import { useNavigation } from "expo-router";
 
@@ -10,7 +9,7 @@ import { usePutConfigure } from "@/hooks/Api/useConfigure/usePutConfigure.hook";
 
 import { Button, LayoutLogged, LabelSectionTitle, SwitchText, LoaderFull } from "@/components";
 
-import { COLORS_SKELETON, spaces } from "@/constants/styles";
+import { spaces } from "@/constants/styles";
 
 export default function Definitions() {
   const navigation = useNavigation();
@@ -73,50 +72,26 @@ export default function Definitions() {
       <View style={styles.container}>
         <LabelSectionTitle text={"Ajustes de Notificações"} />
         <View style={styles.container_definitions}>
-          {/* <Skeleton
-            show={isLoadingConfigure}
-            colorMode={'light'}
-            colors={COLORS_SKELETON}
-          > */}
           <SwitchText
             label={"Pix Gerado"}
             isEnabled={notifyGeneratedPix}
             onToggle={() => setNotifyGeneratedPix(!notifyGeneratedPix)}
           />
-          {/* </Skeleton> */}
-          {/* <Skeleton
-            show={isLoadingConfigure}
-            colorMode={'light'}
-            colors={COLORS_SKELETON}
-          > */}
           <SwitchText
             label={"Pix Aprovado"}
             isEnabled={notifyApprovedPix}
             onToggle={() => setNotifyApprovedPix(!notifyApprovedPix)}
           />
-          {/* </Skeleton> */}
-          {/* <Skeleton
-            show={isLoadingConfigure}
-            colorMode={'light'}
-            colors={COLORS_SKELETON}
-          > */}
           <SwitchText
             label={"Saque transferido"}
             isEnabled={notifyTransferredTransfer}
             onToggle={() => setNotifyTransferredTransfer(!notifyTransferredTransfer)}
           />
-          {/* </Skeleton> */}
-          {/* <Skeleton
-            show={isLoadingConfigure}
-            colorMode={'light'}
-            colors={COLORS_SKELETON}
-          > */}
           <SwitchText
             label={"Atualizações e novidades"}
             isEnabled={notifyNews}
             onToggle={() => setNotifyNews(!notifyNews)}
           />
-          {/* </Skeleton> */}
         </View>
         <Button
           text="Desconectar da conta"

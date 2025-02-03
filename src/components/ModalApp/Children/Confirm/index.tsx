@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { X } from "phosphor-react-native";
 import { Shadow } from "react-native-shadow-2";
@@ -7,6 +7,8 @@ import Recaptcha, { RecaptchaRef } from 'react-native-recaptcha-that-works';
 import { appConfig } from "@/api/appConfig";
 
 import { Button } from "@/components/Button";
+
+import { web } from "@/constants/global";
 
 import { colors, spaces } from "@/constants/styles";
 import { styles } from "./styles";
@@ -87,8 +89,7 @@ export function ModalChildrenConfirm({
           <Recaptcha
             ref={recaptcha}
             siteKey={appConfig.siteKeyRecaptcha || ""}
-            // baseUrl={"https://www.conteudinhos.com.br"}
-            baseUrl={"https://www.linkpriv.com"}
+            baseUrl={web.index}
             onVerify={(token) => handleVerifyCaptcha(token)}
             onExpire={onExpireToken}
             onError={onErrorToken}

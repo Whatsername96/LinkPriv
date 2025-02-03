@@ -4,7 +4,6 @@ import { FlatList, Text, View } from "react-native";
 import { ListTransfersRenderedByDate } from "@/components/List/ListTransfersRenderedByDate";
 import { EmptyState } from "@/components/EmptyState";
 import { FlatlistOperationHeader } from "../Header";
-import { LoadingFooter } from "../LoadingFooter";
 
 import { TransferByDate } from "@/types/backend";
 
@@ -73,11 +72,6 @@ export function FlatlistTransfersList({
         isLoading ? (
           <Fragment>
             <LoaderSimple />
-            {/* <LoadingFooter type={"withdraw"} />
-            <LoadingFooter type={"withdraw"} />
-            <LoadingFooter type={"withdraw"} />
-            <LoadingFooter type={"withdraw"} />
-            <LoadingFooter type={"withdraw"} /> */}
           </Fragment>
         ) : (
           <View style={styles.container_end}>

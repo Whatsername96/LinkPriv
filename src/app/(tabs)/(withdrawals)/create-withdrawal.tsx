@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import { router, useLocalSearchParams } from "expo-router";
 
@@ -20,7 +19,7 @@ import {
 
 import { BankAccount } from "@/types/backend";
 
-import { colors, COLORS_SKELETON, fonts, fonts_sizes, spaces } from "@/constants/styles";
+import { colors, fonts, fonts_sizes, spaces } from "@/constants/styles";
 import { ModalChildrenConfirm } from "@/components/ModalApp/Children/Confirm";
 import Toast from "react-native-toast-message";
 
@@ -128,28 +127,16 @@ export default function CreateWithdrawal() {
           isLoading={false}
           valueDecimalSize={fonts_sizes.small}
         />
-        {/* <Skeleton
-          show={false}
-          colorMode={'light'}
-          colors={COLORS_SKELETON}
-        > */}
         <Select
           text={selectedBankAccount ? selectedBankAccount.label : "Escolha a conta bancária"}
           handleClickInSelect={() => setIsModalBankAccountOpened(true)}
         />
-        {/* </Skeleton> */}
         <View>
           <LabelInfo text={"Escolha um valor"} />
           <View style={styles.list_values}>
             {
               valuesList.map(value => {
                 return (
-                  // <Skeleton
-                  //   show={false}
-                  //   colorMode={'light'}
-                  //   colors={COLORS_SKELETON}
-                  //   key={value}
-                  // >
                   <CardValueShadow
                     key={value}
                     value={value}
@@ -157,21 +144,14 @@ export default function CreateWithdrawal() {
                     isDisabled={value > avaliableAmount}
                     handleClickInValue={() => handleClickInValue(value)}
                   />
-                  // </Skeleton>
                 )
               })
             }
-            {/* <Skeleton
-              show={false}
-              colorMode={'light'}
-              colors={COLORS_SKELETON}
-            > */}
             <CardValueShadow
               value={"Outro"}
               isSelected={false}
               handleClickInValue={handleClickInOtherValue}
             />
-            {/* </Skeleton> */}
           </View>
         </View>
         <View style={styles.container_info_fee}>

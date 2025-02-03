@@ -43,23 +43,18 @@ export function LoaderFull({ isVisible }: LoaderFullProps) {
 
   useEffect(() => {
     if (isVisible) {
-      // Animação de fade in (quando o loader aparece)
       fadeAnim.value = withTiming(1, { duration: 500 });
     } else {
-      // Animação de fade out (quando o loader desaparece)
       fadeAnim.value = withTiming(0, { duration: 500 });
     }
   }, [isVisible]);
 
   function renderCircle(index: number, initialSize: number, maxSize: number, color: string) {
     const animatedStyle = useAnimatedStyle(() => {
-      // Calcula o progresso com desfase para cada círculo
       const cycleProgress = (progress.value + index * 0.25) % 1;
 
-      // O círculo cresce do tamanho inicial até o máximo
       const size = interpolate(cycleProgress, [0, 1], [initialSize, maxSize]);
 
-      // Opacidade aumenta ao crescer e desaparece ao final
       const opacity = interpolate(cycleProgress, [0, 0.8, 1], [0, 1, 0]);
 
       return {
@@ -96,7 +91,7 @@ export function LoaderFull({ isVisible }: LoaderFullProps) {
       <Animated.View
         style={[
           styles.container,
-          { opacity: fadeAnim }, // Controlando a opacidade com a animação de fade
+          { opacity: fadeAnim },
         ]}
       >
         {circles.map((circle, index) =>

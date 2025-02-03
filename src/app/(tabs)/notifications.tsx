@@ -1,13 +1,12 @@
 
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import { useNavigation } from "expo-router";
 
 import { CardNotification, EmptyState, LayoutLogged, LabelSectionTitle, LoaderFull } from "@/components";
 
-import { COLORS_SKELETON, spaces } from "@/constants/styles";
+import { spaces } from "@/constants/styles";
 
 const listNotifications = [
   {
@@ -45,7 +44,6 @@ export default function Notifications() {
   useEffect(() => {
     if (navigation.isFocused()) {
       setIsLoadingData(true);
-      // get;
     } else {
       setIsLoadingData(false);
     }
@@ -70,19 +68,12 @@ export default function Notifications() {
             listNotifications.length > 0 ?
               listNotifications.map(notification => {
                 return (
-                  // <Skeleton
-                  //   key={notification.id}
-                  //   show={isLoadingData}
-                  //   colorMode={'light'}
-                  //   colors={COLORS_SKELETON}
-                  // >
                   <CardNotification
                     key={notification.id}
                     title={notification.title}
                     dateAgo={notification.dateAgo}
                     description={notification.description}
                   />
-                  // </Skeleton>
                 )
               })
               : <EmptyState text={"Nenhuma notificação"} />

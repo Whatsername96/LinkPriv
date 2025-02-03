@@ -3,14 +3,16 @@ import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { X } from "phosphor-react-native";
 import { Shadow } from "react-native-shadow-2";
 import Recaptcha, { RecaptchaRef } from "react-native-recaptcha-that-works";
+import CurrencyInput from "react-native-currency-input";
 
 import { appConfig } from "@/api/appConfig";
+
+import { web } from "@/constants/global";
 
 import { Button } from "@/components/Button";
 
 import { colors, spaces } from "@/constants/styles";
 import { styles } from "./styles";
-import CurrencyInput from "react-native-currency-input";
 
 type InputAndConfirmProps = {
   title: string;
@@ -98,8 +100,7 @@ export function ModalChildrenInputAndConfirm({
           <Recaptcha
             ref={recaptcha}
             siteKey={appConfig.siteKeyRecaptcha || ""}
-            // baseUrl={"https://www.conteudinhos.com.br"}
-            baseUrl={"https://www.linkpriv.com"}
+            baseUrl={web.index}
             onVerify={(token) => handleVerifyCaptcha(token)}
             onExpire={onExpireToken}
             onError={onErrorToken}

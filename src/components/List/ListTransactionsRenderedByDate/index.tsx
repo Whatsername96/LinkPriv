@@ -1,5 +1,4 @@
 import { Text, View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import { CardOperation } from "../../Card/Operation";
 
@@ -7,7 +6,7 @@ import { getDescribedRelativeDate } from "@/utils";
 
 import { Transaction } from "@/types/backend";
 
-import { COLORS_SKELETON, spaces } from "@/constants/styles";
+import { spaces } from "@/constants/styles";
 import { styles } from "./styles";
 
 export type ListRenderedByDateProps = {

@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useReducer, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 
-type UseStateHook<T> = [T | null, (value: T | null) => void]; // Retorna o estado e a função de atualização
+type UseStateHook<T> = [T | null, (value: T | null) => void];
 
 function useAsyncState<T>(initialValue: T | null = null): UseStateHook<T> {
 	return useReducer(
@@ -16,49 +16,49 @@ export async function setStorageItemAsync(
 	setIsLoadingStorage: (value: boolean) => void
 ) {
 	try {
-		setIsLoadingStorage(true); // Marca como carregando enquanto o valor está sendo salvo
+		setIsLoadingStorage(true);
 
 		if (value == null) {
-			await SecureStore.deleteItemAsync(key); // Remove o item do SecureStore
+			await SecureStore.deleteItemAsync(key);
 		} else {
-			await SecureStore.setItemAsync(key, value); // Salva o item no SecureStore
+			await SecureStore.setItemAsync(key, value);
 		}
 	} catch (e) {
 		console.error("Error saving data to SecureStore:", e);
 	} finally {
-		setIsLoadingStorage(false); // Marca como carregamento concluído
+		setIsLoadingStorage(false);
 	}
 }
 
 export function useStorageState(
 	key: string
 ): [string | null, (value: string | null) => void, boolean] {
-	const [state, setState] = useAsyncState<string | null>(null); // Usamos o estado do useAsyncState
-	const [isLoadingStorage, setIsLoadingStorage] = useState(true); // Estado de carregamento
+	const [state, setState] = useAsyncState<string | null>(null);
+	const [isLoadingStorage, setIsLoadingStorage] = useState(true);
 
 	useEffect(() => {
 		const loadStorageData = async () => {
-			setIsLoadingStorage(true); // Marca como carregando
+			setIsLoadingStorage(true);
 			try {
-				const value = await SecureStore.getItemAsync(key); // Carrega o dado do SecureStore
+				const value = await SecureStore.getItemAsync(key);
 				setState(value);
 			} catch (e) {
 				console.error("Error loading data from SecureStore:", e);
 			} finally {
-				setIsLoadingStorage(false); // Marca como carregado
+				setIsLoadingStorage(false);
 			}
 		};
 
-		loadStorageData(); // Executa a carga quando o efeito é disparado
-	}, [key]); // O `key` é uma dependência importante, então se ela mudar, o efeito será executado novamente
+		loadStorageData();
+	}, [key]);
 
 	const setValue = useCallback(
 		(value: string | null) => {
-			setState(value); // Atualiza o estado
-			setStorageItemAsync(key, value, setIsLoadingStorage); // Salva no armazenamento e controla o carregamento
+			setState(value);
+			setStorageItemAsync(key, value, setIsLoadingStorage);
 		},
-		[key] // Dependência do key para garantir que a chave usada no setStorageItemAsync esteja correta
+		[key]
 	);
 
-	return [state, setValue, isLoadingStorage]; // Retorna o estado, a função de atualização e o estado de carregamento
+	return [state, setValue, isLoadingStorage];
 }

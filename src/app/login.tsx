@@ -20,6 +20,8 @@ import { Redirect } from "expo-router";
 import { useAuth } from "@/contexts/useAuth";
 import { InputDefault, Button, LabelTitle, LoaderFull, CardError } from "@/components";
 
+import { web } from "@/constants/global";
+
 import { colors, fonts, fonts_sizes, spaces } from "@/constants/styles";
 
 export default function Login() {
@@ -74,7 +76,7 @@ export default function Login() {
                   Não tem uma conta ainda?{" "}
                 </Text>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL("https://www.linkpriv.com/login")}
+                  onPress={() => Linking.openURL(web.login)}
                   activeOpacity={0.7}
                 >
                   <Text style={styles.register_link}>
@@ -140,7 +142,7 @@ export default function Login() {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPressIn={(e) => e.stopPropagation()}
-                  onPress={() => Linking.openURL("https://www.linkpriv.com/login")}
+                  onPress={() => Linking.openURL(web.login)}
                 >
                   <Text style={styles.forget_pass}>Esqueci minha senha</Text>
                 </TouchableOpacity>

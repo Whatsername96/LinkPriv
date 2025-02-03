@@ -1,12 +1,11 @@
 import { Image, Text, View } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import moment from "moment";
-import { Skeleton } from "moti/skeleton";
 
 import { getTransactionStatusColor, getTransactionStatusTranslation } from "@/utils";
 import { TransactionStatus } from "@/types/backend";
 
-import { colors, COLORS_SKELETON, spaces } from "@/constants/styles";
+import { colors, spaces } from "@/constants/styles";
 import { styles } from "./styles";
 
 type CardOperationProps = {
@@ -25,11 +24,6 @@ export function CardTransactionShadow({
   isLoading
 }: CardOperationProps) {
   return (
-    // <Skeleton
-    //   show={isLoading}
-    //   colorMode={'light'}
-    //   colors={COLORS_SKELETON}
-    // >
     <Shadow
       startColor={colors.gray_9_100}
       endColor={colors.transparent}
@@ -81,6 +75,5 @@ export function CardTransactionShadow({
         </Text>
       </View>
     </Shadow>
-    // </Skeleton >
   );
 }
