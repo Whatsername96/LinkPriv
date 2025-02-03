@@ -4,8 +4,6 @@ export const colors = {
 	pink_2_10: "rgba(254, 1, 92, 0.1)",
 	pink_2_50: "rgba(254, 1, 92, 0.5)",
 	pink_2_15: "rgba(254, 1, 92, 0.15)",
-	pink_3_100: "#FC01D8",
-	pink_3_50: "rgba(252, 1, 216, 0.5)",
 	white_100: "#FFFFFF",
 	white_50: "rgba(255,255,255, 0.5)",
 	white_2_25: "rgb(235,235,235, 0.15)",
