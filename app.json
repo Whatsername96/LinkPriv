@@ -45,6 +45,31 @@
 		],
 		"experiments": {
 			"typedRoutes": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"build": {
+					"experimental": {
+						"ios": {
+							"appExtensions": [
+								{
+									"targetName": "OneSignalNotificationServiceExtension",
+									"bundleIdentifier": "com.seedpay.conteudinhos.OneSignalNotificationServiceExtension",
+									"entitlements": {
+										"com.apple.security.application-groups": [
+											"group.com.seedpay.conteudinhos.onesignal"
+										]
+									}
+								}
+							]
+						}
+					}
+				},
+				"projectId": ""
+			}
 		}
 	}
 }
