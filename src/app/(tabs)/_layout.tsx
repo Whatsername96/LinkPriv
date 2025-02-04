@@ -11,7 +11,6 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         animation: "none",
-
       }}
       tabBar={(props) => <TabBar {...props}
       />

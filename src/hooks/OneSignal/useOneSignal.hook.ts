@@ -7,7 +7,7 @@ export function useOneSignal(isLoggedIn: boolean) {
 
 	async function getDeviceState() {
 		const deviceState = await OneSignal.User.pushSubscription.getOptedInAsync();
-		console.log("Device State:", deviceState);
+		// console.log("Device State:", deviceState);
 		setIsSubscribed(deviceState);
 	}
 
@@ -17,24 +17,24 @@ export function useOneSignal(isLoggedIn: boolean) {
 		OneSignal.Notifications.requestPermission(true);
 		OneSignal.initialize(appConfig.oneSignalKey);
 
-		OneSignal.Notifications.addEventListener(
-			"foregroundWillDisplay",
-			(event) => {
-				console.log("OneSignal: notification will display", event.notification);
-			}
-		);
+		// OneSignal.Notifications.addEventListener(
+		// 	"foregroundWillDisplay",
+		// 	(event) => {
+		// 		console.log("OneSignal: notification will display", event.notification);
+		// 	}
+		// );
 
-		OneSignal.Notifications.addEventListener("click", (event) => {
-			console.log(event.result);
-		});
+		// OneSignal.Notifications.addEventListener("click", (event) => {
+		// 	console.log(event.result);
+		// });
 
-		OneSignal.Notifications.addEventListener("permissionChange", (event) => {
-			console.log(event);
-		});
+		// OneSignal.Notifications.addEventListener("permissionChange", (event) => {
+		// 	console.log(event);
+		// });
 
-		OneSignal.User.addEventListener("change", (event) => {
-			console.log(event);
-		});
+		// OneSignal.User.addEventListener("change", (event) => {
+		// 	console.log(event);
+		// });
 
 		if (isLoggedIn) {
 			OneSignal.User.pushSubscription.optIn();

@@ -39,7 +39,8 @@ export function Header({
         }
       </TouchableOpacity>
       <LabelTitle text={session?.firstName || ""} />
-      <TouchableOpacity
+      <View style={styles.container_items} />
+      {/* <TouchableOpacity
         style={[styles.container_items, styles.container_notifications]}
         activeOpacity={0.6}
         onPress={() => router.push("/notifications")}
@@ -53,7 +54,7 @@ export function Header({
         {
           hasNotifications && <View style={[styles.marker_ball, styles.marker_ball_notifications]} />
         }
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

@@ -33,27 +33,31 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               target: route.key,
               canPreventDefault: true,
             });
-
             if (!isFocused && !event.defaultPrevented) {
-              router.push(`/(tabs)/${route.name !== "index" ? route.name : ""}` as ExternalPathString);
+              if (route.name === "(withdrawals)") {
+                router.push(`/(tabs)/(withdrawals)/list-withdrawals`);
+              } else {
+                router.push(`/(tabs)/${route.name !== "index" ? route.name : ""}` as ExternalPathString);
+              }
             }
           };
-
-          return (
-            <TouchableOpacity
-              key={route.key}
-              activeOpacity={0.6}
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarButtonTestID}
-              onPress={onPress}
-              style={styles.tabItem}
-            >
-              {options.tabBarIcon && typeof options.tabBarIcon === "function"
-                ? options.tabBarIcon(iconProps)
-                : options.tabBarIcon}
-            </TouchableOpacity>
-          );
+          if (route.name !== "notifications") {
+            return (
+              <TouchableOpacity
+                key={route.key}
+                activeOpacity={0.6}
+                accessibilityState={isFocused ? { selected: true } : {}}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarButtonTestID}
+                onPress={onPress}
+                style={styles.tabItem}
+              >
+                {options.tabBarIcon && typeof options.tabBarIcon === "function"
+                  ? options.tabBarIcon(iconProps)
+                  : options.tabBarIcon}
+              </TouchableOpacity>
+            );
+          }
         })}
       </View>
     </Shadow>
