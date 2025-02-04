@@ -30,6 +30,7 @@ export { ListTransfersRenderedByDate } from "./List/ListTransfersRenderedByDate"
 export { LayoutLogged } from "./LayoutLogged";
 export { LoaderFull } from "./Loader/Full";
 export { LoaderSimple } from "./Loader/Simple";
+export { LoaderSplash } from "./Loader/Splash";
 
 export { ModalApp } from "./ModalApp";
 export { ModalChildrenListSelection } from "./ModalApp/Children/Selection";

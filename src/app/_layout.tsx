@@ -9,7 +9,8 @@ import 'moment/min/locales';
 
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-import { Slot, SplashScreen } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { Slot } from 'expo-router';
 import {
   Poppins_500Medium,
   Poppins_600SemiBold
@@ -23,7 +24,7 @@ import {
 import { useTestConnectionUser } from '@/hooks/General/UseTestConnectionUser/UseTestConnectionUser.hook';
 import { SessionProvider } from '@/contexts/useAuth';
 
-import { NoConnected } from '@/components';
+import { LoaderSplash, NoConnected } from '@/components';
 
 import { colors } from '@/constants/styles';
 
@@ -35,6 +36,9 @@ export const unstable_settings = {
   initialRouteName: '/',
 };
 
+SplashScreen.setOptions({
+  fade: false,
+})
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -71,9 +75,10 @@ export default function RootLayout() {
     }
   }, [loaded, isLoadingConnectionStatus]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || isLoadingConnectionStatus) {
+    return <LoaderSplash />;
   }
+
   return (
     <Fragment>
       <View style={{
