@@ -37,3 +37,6 @@ yarn-error.*
 
 #native builds
 android
+
+#google serice account json
+service-account-file.json
