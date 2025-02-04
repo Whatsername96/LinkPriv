@@ -10,7 +10,7 @@
 			"backgroundColor": "#FFD7E5"
 		},
 		"icon": "./assets/images/icon.png",
-		"scheme": "myapp",
+		"scheme": "conteudinhos",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
 		"ios": {
