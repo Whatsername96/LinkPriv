@@ -52,7 +52,7 @@ export function useAuth() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [session, setSession, isLoadingStorage] = useStorageState("session");
+  const [session, setSession, isLoadingStorage] = useStorageState("linkpriv_session");
   const [error, setError] = useState<string | null>(null);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
 
