@@ -24,9 +24,11 @@ export function Header({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.container_items}
-        activeOpacity={0.6}
+        activeOpacity={0.6}> */}
+      <View
+        style={styles.container_items}
       >
         <Image
           source={{ uri: session?.profileImage }}
@@ -37,7 +39,8 @@ export function Header({
         {
           hasConfigs && <View style={[styles.marker_ball, styles.marker_ball_image]} />
         }
-      </TouchableOpacity>
+      </View>
+      {/* </TouchableOpacity> */}
       <LabelTitle text={session?.firstName || ""} />
       <View style={styles.container_items} />
       {/* <TouchableOpacity
