@@ -56,7 +56,7 @@ export function ChartLine({ list }: ChartLineProps) {
         key={JSON.stringify(listChart)}
         isAnimated={true}
         curved={true}
-        labelsExtraHeight={20}
+        labelsExtraHeight={10}
         curveType={CurveType.CUBIC}
         thickness={2}
         color={colors.pink_2_100}
@@ -73,11 +73,12 @@ export function ChartLine({ list }: ChartLineProps) {
         endOpacity={0.1}
         spacing={spacing}
         backgroundColor={colors.white_100}
-        initialSpacing={spaces.item_space_plus}
+        initialSpacing={spaces.item_space_plus_big}
         endSpacing={0}
         hideRules={true}
         hideDataPoints={true}
         overflowTop={100}
+        overflowBottom={0}
         hideYAxisText={true}
         xAxisColor={colors.pink_2_100}
         pointerConfig={{
@@ -86,12 +87,19 @@ export function ChartLine({ list }: ChartLineProps) {
           pointerStripWidth: spaces.item_space_tiny_med,
           pointerColor: colors.pink_2_100,
           radius: border_radius.border_medium,
-          activatePointersOnLongPress: true,
           resetPointerOnDataChange: true,
-          pointerComponent: () => <PointerComponent />,
+          activatePointersOnLongPress: true,
+          autoAdjustPointerLabelPosition: true,
+          pointerComponent: () => {
+            return (
+              <PointerComponent />
+            );
+          },
           pointerLabelComponent: (items: ChartList[]) => {
             return (
-              <PointerLabelComponent value={items[0].value} />
+              <PointerLabelComponent
+                value={items[0].value}
+              />
             )
           }
         }}

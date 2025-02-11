@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
 		backgroundColor: colors.pink_2_100,
 		alignItems: "center",
 		position: "relative",
+		marginTop: 10,
 	},
 	label: {
 		fontFamily: fonts.sofiapro_medium,
