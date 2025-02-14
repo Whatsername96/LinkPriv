@@ -149,6 +149,7 @@ export default function Login() {
               </View>
               <Button
                 text={"Fazer Login"}
+                isDisabled={!email || !password}
                 isLoading={isLoadingStorage}
                 onPress={handleClickSignIn}
               />
