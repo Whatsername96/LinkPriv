@@ -63,7 +63,7 @@ export function ChartLine({ list }: ChartLineProps) {
         noOfSections={5}
         areaChart={true}
         data={listChart}
-        maxValue={Math.max(...listChart.map((item) => item.value)) * 1.3}
+        maxValue={Math.max(...listChart.map((item) => item.value)) * 1.5}
         yAxisThickness={0}
         xAxisThickness={0}
         startFillColor1={colors.pink_2_100}

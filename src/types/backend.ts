@@ -3,6 +3,7 @@
 export type LoginResponse = {
 	authToken: string;
 	needsAdditionalInfo: boolean;
+	email: string;
 	firstName: string;
 	isVerified: boolean;
 	slug: string;

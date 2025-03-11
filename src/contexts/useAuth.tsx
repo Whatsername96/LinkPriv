@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { useStorageState } from "@/services/useStorageState";
 import {
   api,
+  resetAxiosInstance,
   setupAxiosInterceptorsRequestApi,
   setupAxiosInterceptorsResponseApi
 } from "@/api/axiosConfig";
@@ -56,14 +57,18 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [error, setError] = useState<string | null>(null);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
 
-  useOneSignal(!!session);
+  useOneSignal(session);
 
   async function signIn(payload: LoginPayload) {
     try {
       setIsLoadingSession(true);
       const { data } = await api.post(LOGIN_URL, payload);
       if (data) {
-        setSession(JSON.stringify(data as LoginResponse));
+        const data_with_email: LoginResponse = {
+          ...data,
+          email: payload.email
+        }
+        setSession(JSON.stringify(data_with_email));
       }
     } catch (e: any) {
       const error = e as CatchError;
@@ -80,6 +85,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   function signOut() {
     setSession(null);
     setupAxiosInterceptorsRequestApi("");
+    resetAxiosInstance();
     router.replace("/login");
   }
 
