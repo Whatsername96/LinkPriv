@@ -47,7 +47,7 @@ const resetAxiosInstance = () => {
 	apiInstance.interceptors.response.clear();
 
 	apiInstance.defaults.headers.common = {
-		"Content-Type": "application/json",
+		"Content-Type": "application/json, text/plain, */*",
 	};
 };
 
