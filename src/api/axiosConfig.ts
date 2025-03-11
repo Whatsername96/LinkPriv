@@ -18,9 +18,13 @@ const setupAxiosInterceptorsRequestApi = (token: string) => {
 				delete config.headers["Authorization"];
 			}
 		} else {
-			config.headers = {
-				Authorization: `Bearer ${token}` as AxiosHeaderValue,
-			} as AxiosRequestHeaders;
+			if (token.length > 0) {
+				config.headers = {
+					Authorization: `Bearer ${token}` as AxiosHeaderValue,
+				} as AxiosRequestHeaders;
+			} else {
+				delete config.headers["Authorization"];
+			}
 		}
 		return config;
 	});
@@ -38,10 +42,20 @@ const setupAxiosInterceptorsResponseApi = (logout: () => void) => {
 	);
 };
 
+const resetAxiosInstance = () => {
+	apiInstance.interceptors.request.clear();
+	apiInstance.interceptors.response.clear();
+
+	apiInstance.defaults.headers.common = {
+		"Content-Type": "application/json",
+	};
+};
+
 const api = apiInstance;
 
 export {
 	api,
 	setupAxiosInterceptorsRequestApi,
 	setupAxiosInterceptorsResponseApi,
+	resetAxiosInstance,
 };

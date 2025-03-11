@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { LogLevel, OneSignal } from "react-native-onesignal";
 import { appConfig } from "@/api/appConfig";
+import { LoginResponse } from "@/types/backend";
 
-export function useOneSignal(isLoggedIn: boolean) {
+export function useOneSignal(session: string | null) {
 	const [isSubscribed, setIsSubscribed] = useState(false);
 
 	async function getDeviceState() {
@@ -12,7 +13,7 @@ export function useOneSignal(isLoggedIn: boolean) {
 	}
 
 	useEffect(() => {
-		OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+		// OneSignal.Debug.setLogLevel(LogLevel.Verbose);
 		OneSignal.setConsentRequired(false);
 		OneSignal.Notifications.requestPermission(true);
 		OneSignal.initialize(appConfig.oneSignalKey);
@@ -36,14 +37,16 @@ export function useOneSignal(isLoggedIn: boolean) {
 		// 	console.log(event);
 		// });
 
-		if (isLoggedIn) {
+		if (session) {
+			const data: LoginResponse = JSON.parse(session);
+			OneSignal.User.addEmail(data.email);
 			OneSignal.User.pushSubscription.optIn();
 		} else {
 			OneSignal.User.pushSubscription.optOut();
 		}
 
 		getDeviceState();
-	}, [isLoggedIn]);
+	}, [session]);
 
 	return isSubscribed;
 }
