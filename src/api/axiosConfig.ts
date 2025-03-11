@@ -11,7 +11,6 @@ const apiInstance = axios.create({
 
 const setupAxiosInterceptorsRequestApi = (token: string) => {
 	apiInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-		console.log(config.headers);
 		if (config.headers) {
 			if (token.length > 0) {
 				config.headers["Authorization"] = `Bearer ${token}`;
@@ -48,7 +47,7 @@ const resetAxiosInstance = () => {
 	apiInstance.interceptors.response.clear();
 
 	apiInstance.defaults.headers.common = {
-		"Content-Type": "application/json",
+		"Content-Type": "application/json, text/plain, */*",
 	};
 };
 
