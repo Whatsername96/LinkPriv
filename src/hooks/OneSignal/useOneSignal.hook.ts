@@ -39,9 +39,10 @@ export function useOneSignal(session: string | null) {
 
 		if (session) {
 			const data: LoginResponse = JSON.parse(session);
-			OneSignal.User.addEmail(data.email);
 			OneSignal.User.pushSubscription.optIn();
+			OneSignal.login(data.email);
 		} else {
+			OneSignal.logout();
 			OneSignal.User.pushSubscription.optOut();
 		}
 
