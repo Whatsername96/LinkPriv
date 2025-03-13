@@ -15,7 +15,11 @@
 		"newArchEnabled": true,
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.seedpay.linkpriv"
+			"bundleIdentifier": "com.seedpay.linkpriv",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false,
+				"NSLocationWhenInUseUsageDescription": "O aplicativo necessita da localização para o envio de notificações."
+			}
 		},
 		"android": {
 			"adaptiveIcon": {
@@ -68,7 +72,7 @@
 						}
 					}
 				},
-				"projectId": ""
+				"projectId": "60ec98d2-8319-4802-aeea-3b2993971e54"
 			}
 		}
 	}

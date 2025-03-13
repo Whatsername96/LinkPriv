@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -16,9 +16,16 @@ import {
 import { Eye, EyeSlash } from "phosphor-react-native";
 
 import { Redirect } from "expo-router";
+import * as WebBrowser from 'expo-web-browser';
 
 import { useAuth } from "@/contexts/useAuth";
-import { InputDefault, Button, LabelTitle, LoaderFull, CardError } from "@/components";
+import {
+  InputDefault,
+  Button,
+  LabelTitle,
+  LoaderFull,
+  CardError
+} from "@/components";
 
 import { web } from "@/constants/global";
 
@@ -33,6 +40,7 @@ export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const passwordInputRef = useRef<TextInput>(null);
+
 
   if (session) {
     return <Redirect href={"/(tabs)"} />;
@@ -53,6 +61,14 @@ export default function Login() {
 
   function handlePasswordVisibility() {
     setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  async function handleClickInOpenLink() {
+    try {
+      await WebBrowser.openBrowserAsync('https://www.linkpriv.com/login');
+    } catch (e) {
+      Alert.alert("Ocorreu um erro ao abrir o link.");
+    }
   };
 
   return (
@@ -76,7 +92,7 @@ export default function Login() {
                   Não tem uma conta ainda?{" "}
                 </Text>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL(web.login)}
+                  onPress={handleClickInOpenLink}
                   activeOpacity={0.7}
                 >
                   <Text style={styles.register_link}>
@@ -142,7 +158,7 @@ export default function Login() {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPressIn={(e) => e.stopPropagation()}
-                  onPress={() => Linking.openURL(web.login)}
+                  onPress={handleClickInOpenLink}
                 >
                   <Text style={styles.forget_pass}>Esqueci minha senha</Text>
                 </TouchableOpacity>
@@ -155,6 +171,28 @@ export default function Login() {
               />
             </View>
           </View>
+
+          {/* <ModalWv
+            isVisible={isOpenedWbRegister}
+            handleClickCloseModal={handleClickCloseRegisterWb}
+            handleClickInBackModal={handleClickGoBackRegisterWb}
+          >
+            <WebView
+              ref={webViewRegisterRef}
+              style={{ flex: 1 }}
+              source={{ uri: 'https://www.linkpriv.com/login' }}
+              renderLoading={() => <LoaderSimple />}
+              startInLoadingState
+              javaScriptEnabled
+              domStorageEnabled
+              cacheEnabled
+              thirdPartyCookiesEnabled
+              allowsProtectedMedia
+              allowUniversalAccessFromFileURLs
+              allowsInlineMediaPlayback
+            onNavigationStateChange={handleClickCloseRegisterWb}
+            />
+          </ModalWv> */}
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
