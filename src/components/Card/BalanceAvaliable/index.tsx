@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 
 import { colors, fonts_sizes } from "@/constants/styles";
@@ -71,11 +71,11 @@ export function CardBalanceAvaliable({
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={handleClickInButton}
-              disabled={isLoading || isButtonDisabled}
+              disabled={isLoading || isButtonDisabled || Platform.OS === 'ios'}
               style={[
                 styles.button_right,
                 { backgroundColor: buttonBackgroundColor },
-                isButtonDisabled && { opacity: 0.7 }
+                (isButtonDisabled || isLoading || Platform.OS === 'ios') && { opacity: 0.7 }
               ]}
             >
               <Text style={[styles.button_right_text, { color: buttonTextColor }]}>
@@ -88,6 +88,9 @@ export function CardBalanceAvaliable({
               </Text>
             }
           </Shadow>
+        }
+        {Platform.OS === 'ios' &&
+          <Text style={styles.info_withdraw}>* Realize os pedidos de saque na versão online.</Text>
         }
       </View>
     </View>
