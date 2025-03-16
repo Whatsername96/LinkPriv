@@ -36,7 +36,7 @@ export default function Transactions() {
   }, [isLoadingTransactions]);
 
   useEffect(() => {
-    if (!fetchedListFirstTime && listTransactions.length > 0) {
+    if (!fetchedListFirstTime && listTransactions.length > 0 && !isLoadingTransactions) {
       setFetchedListFirstTime(true);
     }
 
@@ -45,10 +45,11 @@ export default function Transactions() {
     } else if (!isLoadingTransactions && fetchedListFirstTime) {
       setAllTransactionsFetched(true);
     }
+    setIsFetching(false);
   }, [listTransactions]);
 
   function fetchPage(page: number) {
-    if (!allTransactionsFetched && !isLoadingTransactions) {
+    if (!allTransactionsFetched && !isLoadingTransactions && !isFetching) {
       setIsFetching(true);
       getTransactionsPaginated(page, ITEMS_PER_PAGE);
     }
@@ -86,7 +87,11 @@ export default function Transactions() {
   };
 
   function handleScrollToEnd() {
-    if (!allTransactionsFetched && !isLoadingTransactions && !isFetching) {
+    if (fetchedListFirstTime &&
+      !allTransactionsFetched &&
+      !isLoadingTransactions &&
+      !isFetching &&
+      listTransactionsAll.length > 0) {
       const nextPage = currentPage + 1;
       setCurrentPage(nextPage);
       fetchPage(nextPage);
@@ -105,12 +110,14 @@ export default function Transactions() {
         titleSection={"Transações"}
         list={listTransactionsAll}
         isLoading={isLoadingTransactions}
-        textEndReachedData={"Sem mais transações"}
+        textEndReachedData={!allTransactionsFetched ||
+          (listTransactionsAll.length === 0 && !isLoadingTransactions && !isFetching)
+          ? ""
+          : "Sem mais transações."}
         textEmptyState={"Nenhuma transação encontrada."}
         handleScrollToEnd={handleScrollToEnd}
         fetchedListFirstTime={fetchedListFirstTime}
       />
-
     </Fragment>
   )
 }
