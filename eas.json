@@ -14,14 +14,20 @@
 			"distribution": "internal"
 		},
 		"production": {
-			"autoIncrement": true
+			"autoIncrement": true,
+			"env": {
+				"EXPO_PUBLIC_API_URL": "<EXPO_PUBLIC_API_URL_ENV>",
+				"EXPO_PUBLIC_SITE_KEY_RECAPTCHA": "<EXPO_PUBLIC_SITE_KEY_RECAPTCHA_ENV>",
+				"EXPO_PUBLIC_ONE_SIGNAL_KEY": "<EXPO_PUBLIC_ONE_SIGNAL_KEY_ENV>"
+			}
 		}
 	},
 	"submit": {
 		"production": {
-			"android": {
-				"serviceAccountKeyPath": "./service-account-file.json",
-				"track": "production"
+			"ios": {
+				"appleId": "<EMAIL_LOGIN_APPLE>",
+				"ascAppId": "<APP_ID>",
+				"appleTeamId": "<TEAM_ID>"
 			}
 		}
 	}
