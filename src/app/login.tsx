@@ -87,19 +87,22 @@ export default function Login() {
           <View style={styles.content}>
             <View style={styles.header_login}>
               <LabelTitle text={"Olá novamente!"} textAlign={"left"} />
-              <View style={styles.container_register}>
-                <Text style={styles.register_text}>
-                  Não tem uma conta ainda?{" "}
-                </Text>
-                <TouchableOpacity
-                  onPress={handleClickInOpenLink}
-                  activeOpacity={0.7}
-                >
-                  <Text style={styles.register_link}>
-                    Registre-se
+              {
+                Platform.OS === 'android' &&
+                <View style={styles.container_register}>
+                  <Text style={styles.register_text}>
+                    Não tem uma conta ainda?{" "}
                   </Text>
-                </TouchableOpacity>
-              </View>
+                  <TouchableOpacity
+                    onPress={handleClickInOpenLink}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.register_link}>
+                      Registre-se
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
             </View>
             <View style={styles.container_form}>
               <InputDefault
