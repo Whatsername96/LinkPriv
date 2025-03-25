@@ -21,22 +21,24 @@ export function useOneSignal(session: string | null) {
 
 	async function getPermission() {
 		try {
+			let permission = false;
+
 			if (Platform.OS === "ios") {
 				const iosPermission = await OneSignal.Notifications.permissionNative();
-				if (iosPermission === OSNotificationPermission.NotDetermined) {
-					const permission = await OneSignal.Notifications.requestPermission(
-						false
-					);
-					setIsAbleToNotifications(permission);
+
+				if (iosPermission === OSNotificationPermission.Authorized) {
+					permission = true;
+				} else if (iosPermission === OSNotificationPermission.NotDetermined) {
+					permission = await OneSignal.Notifications.requestPermission(false);
 				}
 			} else {
-				const permission = await OneSignal.Notifications.requestPermission(
-					false
-				);
-				setIsAbleToNotifications(permission);
+				permission = await OneSignal.Notifications.requestPermission(false);
 			}
+
+			setIsAbleToNotifications(permission);
 		} catch (e: any) {
 			console.log(e.message);
+			setIsAbleToNotifications(false);
 		}
 	}
 
@@ -47,7 +49,7 @@ export function useOneSignal(session: string | null) {
 				OneSignal.User.pushSubscription.optIn();
 				OneSignal.login(data.email);
 			} else {
-				OneSignal.logout();
+				//OneSignal.logout();
 				OneSignal.User.pushSubscription.optOut();
 			}
 		}
