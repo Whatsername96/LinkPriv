@@ -66,9 +66,9 @@ export function CardOperation({
           type === "transaction" &&
           <Text
             style={[styles.transaction_status,
-            { color: getTransactionStatusColor(3) }]}
+            { color: getTransactionStatusColor(status as TransactionStatus) }]}
           >
-            {getTransactionStatusTranslation(3)}
+            {getTransactionStatusTranslation(status as TransactionStatus)}
           </Text>
         }
       </View>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { useNavigation } from "expo-router";
@@ -15,7 +15,7 @@ export default function Definitions() {
   const navigation = useNavigation();
   const { signOut, isLoadingStorage } = useAuth();
 
-  const { getConfigure, isLoadingConfigure, listConfigure } = useGetConfigure();
+  const { getConfigure, isLoadingConfigure, listConfigure, fetchedConfigures } = useGetConfigure();
   const { putConfigure } = usePutConfigure();
 
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -46,12 +46,7 @@ export default function Definitions() {
   }, [listConfigure]);
 
   useEffect(() => {
-    if (!isLoadingConfigure &&
-      (listConfigure.notifyApprovedPix !== notifyApprovedPix) ||
-      (listConfigure.notifyGeneratedPix !== notifyGeneratedPix) ||
-      (listConfigure.notifyNews !== notifyNews) ||
-      (listConfigure.notifyTransferredTransfer !== notifyTransferredTransfer)
-    ) {
+    if (!isLoadingConfigure && fetchedConfigures) {
       putConfigure({
         ApprovedPix: notifyApprovedPix,
         GeneratedPix: notifyGeneratedPix,

@@ -17,16 +17,22 @@ export function useTestConnectionUser() {
 	async function testConnectionApp() {
 		try {
 			setIsLoadingConnectionStatus(true);
-			let netInfo = await NetInfo.fetch();
-			if (netInfo.isInternetReachable === null) {
-				await timeout(200);
-				netInfo = await NetInfo.fetch();
+			const netInfoFirst = await NetInfo.fetch();
+			if (netInfoFirst.isInternetReachable) {
+				setIsConnected(
+					netInfoFirst.isConnected && netInfoFirst.isInternetReachable
+						? netInfoFirst.isConnected && netInfoFirst.isInternetReachable
+						: false
+				);
+			} else {
+				await timeout(1000);
+				const netInfoSecond = await NetInfo.fetch();
+				setIsConnected(
+					netInfoSecond.isConnected && netInfoSecond.isInternetReachable
+						? netInfoSecond.isConnected && netInfoSecond.isInternetReachable
+						: false
+				);
 			}
-			setIsConnected(
-				netInfo.isConnected && netInfo.isInternetReachable
-					? netInfo.isConnected && netInfo.isInternetReachable
-					: false
-			);
 		} catch (e) {
 			console.error("Erro ao verificar conexão:", e);
 		} finally {
