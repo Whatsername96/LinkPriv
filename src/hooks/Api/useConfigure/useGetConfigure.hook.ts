@@ -13,6 +13,7 @@ const ERRORS_STATUS_CODE: { [key: number]: string } = {
 
 export function useGetConfigure() {
 	const [isLoadingConfigure, setIsLoadingConfigure] = useState(true);
+	const [fetchedConfigures, setFetchedConfigures] = useState(false);
 	const [listConfigure, setListConfigure] = useState<ConfigureResponse>({
 		notifyApprovedPix: false,
 		notifyGeneratedPix: false,
@@ -42,6 +43,7 @@ export function useGetConfigure() {
 			}
 		} finally {
 			setIsLoadingConfigure(false);
+			setFetchedConfigures(true);
 		}
 	}
 
@@ -49,5 +51,6 @@ export function useGetConfigure() {
 		getConfigure,
 		listConfigure,
 		isLoadingConfigure,
+		fetchedConfigures,
 	};
 }
