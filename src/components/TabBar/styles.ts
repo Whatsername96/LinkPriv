@@ -4,6 +4,7 @@ import { colors, spaces } from "@/constants/styles";
 export const styles = StyleSheet.create({
 	container: {
 		width: "100%",
+		backgroundColor: colors.white_100,
 	},
 	tabBar: {
 		flexDirection: "row",
