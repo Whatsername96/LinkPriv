@@ -98,6 +98,7 @@ export function ChartLine({ list }: ChartLineProps) {
           pointerLabelComponent: (items: ChartList[]) => {
             return (
               <PointerLabelComponent
+                isAllValuesZero={listChart.every(i => i.value === 0)}
                 value={items[0].value}
               />
             )
