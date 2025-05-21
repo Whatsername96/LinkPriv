@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   Keyboard,
@@ -19,11 +19,12 @@ import { Redirect } from "expo-router";
 import * as WebBrowser from 'expo-web-browser';
 
 import { useAuth } from "@/contexts/useAuth";
+import { useLoader } from "@/contexts/LoaderProvider";
+
 import {
   InputDefault,
   Button,
   LabelTitle,
-  LoaderFull,
   CardError
 } from "@/components";
 
@@ -33,6 +34,7 @@ import { colors, fonts, fonts_sizes, spaces } from "@/constants/styles";
 
 export default function Login() {
   const { isLoadingStorage, isLoadingSession, signIn, session, error } = useAuth();
+  const { showLoader, hideLoader } = useLoader();
 
   const [email, setEmail] = useState("");
 
@@ -41,18 +43,16 @@ export default function Login() {
 
   const passwordInputRef = useRef<TextInput>(null);
 
-
-  if (session) {
-    return <Redirect href={"/(tabs)"} />;
-  }
-
-  if (isLoadingStorage || isLoadingSession) {
-    return (
-      <LoaderFull isVisible={isLoadingStorage || isLoadingSession} />
-    )
-  }
+  useEffect(() => {
+    if (isLoadingStorage || isLoadingSession) {
+      showLoader();
+    } else {
+      hideLoader();
+    }
+  }, [isLoadingStorage, isLoadingSession]);
 
   function handleClickSignIn() {
+    Keyboard.dismiss();
     signIn({
       email: email,
       password: password
@@ -70,6 +70,10 @@ export default function Login() {
       Alert.alert("Ocorreu um erro ao abrir o link.");
     }
   };
+
+  if (session) {
+    return <Redirect href={"/(tabs)"} />;
+  }
 
   return (
     <KeyboardAvoidingView

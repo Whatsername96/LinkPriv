@@ -13,11 +13,11 @@ import {
   CardTransactionShadow,
   LayoutLogged,
   EmptyState,
-  LoaderFull
 } from "@/components";
 
 import { useGetLastTransactions } from "@/hooks/Api/useTransactions/useGetLastTransactions.hook";
 import { useGetChartInfo } from "@/hooks/Api/useChartInfo/useChartInfo.hook";
+import { useLoader } from "@/contexts/LoaderProvider";
 
 import { colors, fonts, fonts_sizes, spaces } from "@/constants/styles";
 
@@ -36,20 +36,31 @@ export default function Home() {
     listChartInfo
   } = useGetChartInfo();
 
+  const { showLoader, hideLoader } = useLoader();
+
   const [isLoadingChartData, setIsLoadingChartData] = useState(true);
   const [isLoadingLastTransactionsData, setIsLoadingLastTransactionsData] = useState(true);
 
   useEffect(() => {
-    if (navigation.isFocused()) {
+    const unsubscribe = navigation.addListener('focus', () => {
       setIsLoadingChartData(true);
       setIsLoadingLastTransactionsData(true);
+
       getLastTransactions();
       getChartInfo();
-    } else {
+      showLoader();
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
       setIsLoadingChartData(false);
       setIsLoadingLastTransactionsData(false);
-    }
-  }, [navigation.isFocused()]);
+    });
+
+    return () => {
+      unsubscribe();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     setIsLoadingChartData(isLoadingChartInfo)
@@ -59,20 +70,11 @@ export default function Home() {
     setIsLoadingLastTransactionsData(isLoadingLastTransactions)
   }, [isLoadingLastTransactions]);
 
-  if (isLoadingChartData ||
-    isLoadingChartInfo ||
-    isLoadingLastTransactions ||
-    isLoadingLastTransactionsData) {
-    return (
-      <LoaderFull
-        isVisible={
-          isLoadingChartData ||
-          isLoadingChartInfo ||
-          isLoadingLastTransactions ||
-          isLoadingLastTransactionsData}
-      />
-    )
-  }
+  useEffect(() => {
+    if (!isLoadingChartData && !isLoadingChartInfo) {
+      hideLoader();
+    }
+  }, [isLoadingChartData, isLoadingLastTransactionsData]);
 
   return (
     <LayoutLogged>

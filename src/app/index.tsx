@@ -1,20 +1,30 @@
+import { useEffect } from "react";
 import { Redirect } from "expo-router";
 
 import { useAuth } from "@/contexts/useAuth";
-import { LoaderFull } from "@/components";
+import { useLoader } from "@/contexts/LoaderProvider";
 
 export default function AppLayout() {
   const { isLoadingSession, isLoadingStorage, session } = useAuth();
+  const { showLoader, hideLoader } = useLoader();
 
-  if (isLoadingSession || isLoadingStorage) {
-    return <LoaderFull isVisible={isLoadingSession || isLoadingStorage} />;
-  }
+  useEffect(() => {
+    if (isLoadingSession || isLoadingStorage) {
+      showLoader();
+    } else {
+      hideLoader()
+    }
+  }, [isLoadingSession, isLoadingStorage]);
 
-  if (!session) {
+  if (!session && !isLoadingSession && !isLoadingStorage) {
     return <Redirect href="/login" />;
   }
 
-  return (
-    <Redirect href="/(tabs)" />
-  );
+  if (session && !isLoadingSession && !isLoadingStorage) {
+    return (
+      <Redirect href="/(tabs)" />
+    );
+  }
+
+  return <></>;
 }

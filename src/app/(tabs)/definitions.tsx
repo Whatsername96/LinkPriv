@@ -4,16 +4,18 @@ import { StyleSheet, View } from "react-native";
 import { useNavigation } from "expo-router";
 
 import { useAuth } from "@/contexts/useAuth";
+import { useLoader } from "@/contexts/LoaderProvider";
 import { useGetConfigure } from "@/hooks/Api/useConfigure/useGetConfigure.hook";
 import { usePutConfigure } from "@/hooks/Api/useConfigure/usePutConfigure.hook";
 
-import { Button, LayoutLogged, LabelSectionTitle, SwitchText, LoaderFull } from "@/components";
+import { Button, LayoutLogged, LabelSectionTitle, SwitchText } from "@/components";
 
 import { spaces } from "@/constants/styles";
 
 export default function Definitions() {
   const navigation = useNavigation();
   const { signOut, isLoadingStorage } = useAuth();
+  const { showLoader, hideLoader } = useLoader();
 
   const { getConfigure, isLoadingConfigure, listConfigure, fetchedConfigures } = useGetConfigure();
   const { putConfigure } = usePutConfigure();
@@ -23,15 +25,24 @@ export default function Definitions() {
   const [notifyGeneratedPix, setNotifyGeneratedPix] = useState(false);
   const [notifyNews, setNotifyNews] = useState(false);
   const [notifyTransferredTransfer, setNotifyTransferredTransfer] = useState(false);
+  const [changedSomeConfig, setChangeSomeConfig] = useState(false);
 
   useEffect(() => {
-    if (navigation.isFocused()) {
+    const unsubscribe = navigation.addListener('focus', () => {
+      showLoader();
       setIsLoadingData(true);
       getConfigure();
-    } else {
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
       setIsLoadingData(false);
-    }
-  }, [navigation.isFocused()]);
+      setChangeSomeConfig(false);
+    })
+    return () => {
+      unsubscribe();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     setIsLoadingData(isLoadingConfigure);
@@ -46,7 +57,7 @@ export default function Definitions() {
   }, [listConfigure]);
 
   useEffect(() => {
-    if (!isLoadingConfigure && fetchedConfigures) {
+    if (!isLoadingConfigure && fetchedConfigures && changedSomeConfig) {
       putConfigure({
         ApprovedPix: notifyApprovedPix,
         GeneratedPix: notifyGeneratedPix,
@@ -56,11 +67,11 @@ export default function Definitions() {
     }
   }, [notifyApprovedPix, notifyGeneratedPix, notifyNews, notifyTransferredTransfer]);
 
-  if (isLoadingData) {
-    return (
-      <LoaderFull isVisible={isLoadingConfigure} />
-    )
-  }
+  useEffect(() => {
+    if (!isLoadingData) {
+      hideLoader();
+    }
+  }, [isLoadingData]);
 
   return (
     <LayoutLogged>
@@ -70,22 +81,34 @@ export default function Definitions() {
           <SwitchText
             label={"Pix Gerado"}
             isEnabled={notifyGeneratedPix}
-            onToggle={() => setNotifyGeneratedPix(!notifyGeneratedPix)}
+            onToggle={() => {
+              setNotifyGeneratedPix(!notifyGeneratedPix);
+              setChangeSomeConfig(true);
+            }}
           />
           <SwitchText
             label={"Pix Aprovado"}
             isEnabled={notifyApprovedPix}
-            onToggle={() => setNotifyApprovedPix(!notifyApprovedPix)}
+            onToggle={() => {
+              setNotifyApprovedPix(!notifyApprovedPix);
+              setChangeSomeConfig(true);
+            }}
           />
           <SwitchText
             label={"Saque transferido"}
             isEnabled={notifyTransferredTransfer}
-            onToggle={() => setNotifyTransferredTransfer(!notifyTransferredTransfer)}
+            onToggle={() => {
+              setNotifyTransferredTransfer(!notifyTransferredTransfer);
+              setChangeSomeConfig(true)
+            }}
           />
           <SwitchText
             label={"Atualizações e novidades"}
             isEnabled={notifyNews}
-            onToggle={() => setNotifyNews(!notifyNews)}
+            onToggle={() => {
+              setNotifyNews(!notifyNews);
+              setChangeSomeConfig(true);
+            }}
           />
         </View>
         <Button

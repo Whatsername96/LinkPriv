@@ -24,20 +24,22 @@ export function LoaderFull({ isVisible }: LoaderFullProps) {
   const fadeAnim = useSharedValue(0);
 
   useEffect(() => {
-    progress.value = withRepeat(
-      withTiming(1, { duration: 3000, easing: Easing.linear }),
-      -1,
-      false
-    );
+    requestAnimationFrame(() => {
+      progress.value = withRepeat(
+        withTiming(1, { duration: 3000, easing: Easing.linear }),
+        -1,
+        false
+      );
 
-    scale.value = withRepeat(
-      withTiming(1.2, {
-        duration: 1000,
-        easing: Easing.inOut(Easing.ease)
-      }),
-      -1,
-      true
-    );
+      scale.value = withRepeat(
+        withTiming(1.2, {
+          duration: 1000,
+          easing: Easing.inOut(Easing.ease),
+        }),
+        -1,
+        true
+      );
+    });
   }, []);
 
 
@@ -82,25 +84,20 @@ export function LoaderFull({ isVisible }: LoaderFullProps) {
   ];
 
   return (
-    <Modal
-      visible={isVisible}
-      animationType={"fade"}
-      onDismiss={() => { }}
-      onRequestClose={() => { }}
+    <Animated.View
+      pointerEvents={isVisible ? "auto" : "none"}
+      style={[
+        styles.container,
+        { opacity: fadeAnim },
+        { display: isVisible ? 'flex' : 'none' },
+      ]}
     >
-      <Animated.View
-        style={[
-          styles.container,
-          { opacity: fadeAnim },
-        ]}
-      >
-        {circles.map((circle, index) =>
-          renderCircle(index, circle.initialSize, circle.maxSize, circle.color)
-        )}
-        <Animated.View style={[breathingAnimation]}>
-          <MainLogo width={height / 8} height={height / 8} />
-        </Animated.View>
+      {circles.map((circle, index) =>
+        renderCircle(index, circle.initialSize, circle.maxSize, circle.color)
+      )}
+      <Animated.View style={[breathingAnimation]}>
+        <MainLogo width={height / 8} height={height / 8} />
       </Animated.View>
-    </Modal>
+    </Animated.View>
   );
 }
