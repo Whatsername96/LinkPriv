@@ -2,9 +2,10 @@ import { Fragment, useEffect, useState } from "react";
 
 import { useNavigation } from "expo-router";
 
+import { useLoader } from "@/contexts/LoaderProvider";
 import { useGetTransactions } from "@/hooks/Api/useTransactions/useGetTransactions.hook";
 
-import { FlatlistTransactionsList, LoaderFull } from "@/components";
+import { FlatlistTransactionsList } from "@/components";
 
 import { TransactionByDateResponse } from "@/types/backend";
 
@@ -12,6 +13,7 @@ export default function Transactions() {
   const navigation = useNavigation();
   const ITEMS_PER_PAGE = 25;
   const { isLoadingTransactions, listTransactions, getTransactionsPaginated } = useGetTransactions();
+  const { showLoader, hideLoader } = useLoader();
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [fetchedListFirstTime, setFetchedListFirstTime] = useState(false);
   const [listTransactionsAll, setListTransactionsAll] = useState<TransactionByDateResponse[]>([]);
@@ -20,14 +22,21 @@ export default function Transactions() {
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    if (navigation.isFocused()) {
+    const unsubscribe = navigation.addListener('focus', () => {
       setIsLoadingData(true);
+      showLoader();
       fetchPage(1);
-    }
-    else {
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
       resetList();
-    }
-  }, [navigation.isFocused()]);
+    });
+
+    return () => {
+      unsubscribe();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     if (!fetchedListFirstTime) {
@@ -47,6 +56,12 @@ export default function Transactions() {
     }
     setIsFetching(false);
   }, [listTransactions]);
+
+  useEffect(() => {
+    if (!isLoadingData) {
+      hideLoader();
+    }
+  }, [isLoadingData])
 
   function fetchPage(page: number) {
     if (!allTransactionsFetched && !isLoadingTransactions && !isFetching) {
@@ -97,12 +112,6 @@ export default function Transactions() {
       fetchPage(nextPage);
     }
   };
-
-  if (isLoadingData) {
-    return (
-      <LoaderFull isVisible={isLoadingData} />
-    )
-  }
 
   return (
     <Fragment>

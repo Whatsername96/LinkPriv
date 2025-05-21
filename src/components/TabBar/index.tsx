@@ -8,6 +8,7 @@ import { ExternalPathString, useRouter } from "expo-router";
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const router = useRouter();
+
   return (
     <Shadow
       startColor={colors.gray_9_100}
@@ -20,7 +21,6 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const isFocused = state.index === index;
-
           const iconProps = {
             focused: isFocused,
             color: isFocused ? colors.pink_2_100 : colors.gray_3_100,

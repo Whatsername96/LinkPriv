@@ -4,9 +4,10 @@ import { StyleSheet, View } from "react-native";
 
 import { useNavigation } from "expo-router";
 
-import { CardNotification, EmptyState, LayoutLogged, LabelSectionTitle, LoaderFull } from "@/components";
+import { CardNotification, EmptyState, LayoutLogged, LabelSectionTitle } from "@/components";
 
 import { spaces } from "@/constants/styles";
+import { useLoader } from "@/contexts/LoaderProvider";
 
 const listNotifications = [
   {
@@ -37,27 +38,35 @@ const listNotifications = [
 
 export default function Notifications() {
   const navigation = useNavigation();
+  const { showLoader, hideLoader } = useLoader();
 
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (navigation.isFocused()) {
+    const unsubscribe = navigation.addListener('focus', () => {
+      showLoader();
       setIsLoadingData(true);
-    } else {
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
       setIsLoadingData(false);
-    }
-  }, [navigation.isFocused()]);
+    })
+    return () => {
+      unsubscribe();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     setIsLoadingData(isLoading);
   }, [isLoading]);
 
-  if (isLoadingData) {
-    return (
-      <LoaderFull isVisible={isLoadingData} />
-    )
-  }
+  useEffect(() => {
+    if (!isLoadingData) {
+      hideLoader();
+    }
+  }, [isLoadingData]);
 
   return (
     <LayoutLogged>

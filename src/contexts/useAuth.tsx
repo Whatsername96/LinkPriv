@@ -90,11 +90,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
   }
 
   useEffect(() => {
-    if (session) {
+    if (session && !isLoadingSession) {
       setupAxiosInterceptorsRequestApi(JSON.parse(session).authToken);
-      router.replace("/(tabs)");
     }
-  }, [session]);
+  }, [session, isLoadingSession]);
 
   useEffect(() => {
     setupAxiosInterceptorsResponseApi(signOut);

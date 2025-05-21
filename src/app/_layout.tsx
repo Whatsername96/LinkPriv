@@ -24,9 +24,10 @@ import {
 import { useTestConnectionUser } from '@/hooks/General/UseTestConnectionUser/UseTestConnectionUser.hook';
 import { SessionProvider } from '@/contexts/useAuth';
 
-import { LoaderSplash, NoConnected } from '@/components';
+import { LoaderFull, LoaderSplash, NoConnected } from '@/components';
 
 import { colors } from '@/constants/styles';
+import { LoaderProvider, useLoader } from '@/contexts/LoaderProvider';
 
 export {
   ErrorBoundary,
@@ -97,7 +98,10 @@ export default function RootLayout() {
           isConnected ?
             <Fragment>
               <SessionProvider>
-                <Slot />
+                <LoaderProvider>
+                  <Slot />
+                  <LoaderFullWrapper />
+                </LoaderProvider>
               </SessionProvider>
               <Toast />
             </Fragment>
@@ -110,4 +114,9 @@ export default function RootLayout() {
       </SafeAreaView>
     </Fragment>
   );
+}
+
+function LoaderFullWrapper() {
+  const { isVisible } = useLoader();
+  return <LoaderFull isVisible={isVisible} />;
 }

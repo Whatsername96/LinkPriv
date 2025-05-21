@@ -4,8 +4,9 @@ import { router, useNavigation } from "expo-router";
 
 
 import { useGetTransfers } from "@/hooks/Api/useTransfers/useGetTransfers.hook";
+import { useLoader } from "@/contexts/LoaderProvider";
 
-import { CardBalanceAvaliable, FlatlistTransfersList, LoaderFull } from "@/components";
+import { CardBalanceAvaliable, FlatlistTransfersList } from "@/components";
 
 import { TransferByDate } from "@/types/backend";
 
@@ -15,6 +16,8 @@ export default function ListWithdrawals() {
   const navigation = useNavigation();
   const ITEMS_PER_PAGE = 25;
   const { isLoadingTransfers, listTransfers, getTransfersPaginated } = useGetTransfers();
+  const { showLoader, hideLoader } = useLoader();
+
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [fetchedListFirstTime, setFetchedListFirstTime] = useState(false);
   const [listTransfersAll, setListTransfersAll] = useState<TransferByDate[]>([]);
@@ -23,19 +26,26 @@ export default function ListWithdrawals() {
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    if (navigation.isFocused()) {
+    const unsubscribe = navigation.addListener('focus', () => {
+      showLoader();
       setIsLoadingData(true);
       fetchPage(1);
-    } else {
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
       resetList();
-    }
-  }, [navigation.isFocused()]);
+    })
+    return () => {
+      unsubscribe();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     if (!fetchedListFirstTime) {
       setIsLoadingData(isLoadingTransfers);
     }
-  }, [isLoadingTransfers])
+  }, [isLoadingTransfers]);
 
   useEffect(() => {
     if (!fetchedListFirstTime && listTransfers.transfers.length > 0 && !isLoadingTransfers) {
@@ -50,6 +60,12 @@ export default function ListWithdrawals() {
     setIsFetching(false);
 
   }, [listTransfers.transfers]);
+
+  useEffect(() => {
+    if (!isLoadingData) {
+      hideLoader();
+    }
+  }, [isLoadingData])
 
 
   function fetchPage(page: number) {
@@ -102,12 +118,6 @@ export default function ListWithdrawals() {
       fetchPage(nextPage);
     }
   };
-
-  if (isLoadingData) {
-    return (
-      <LoaderFull isVisible={isLoadingData} />
-    )
-  }
 
   return (
     <Fragment>

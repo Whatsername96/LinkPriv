@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 
 import { spaces } from "@/constants/styles";
 import { styles } from "./styles";
+import { useEffect } from "react";
 
 type PointerLabelComponent = {
   value: number;
